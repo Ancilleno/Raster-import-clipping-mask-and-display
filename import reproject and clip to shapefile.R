@@ -149,9 +149,14 @@ totalpixels<- #vector for the total pixels in the study area
   sum(habitatpixels$freq[1:7])
 totalarea<-#vector of total area in study area
   sum(habitatareakm2)
+percentarea<-habitatareakm2/totalarea #%of total area in each habitat type
+
+habitat<-data.frame(legend,habitatpixels$freq[1:7],habitatareakm2,percentarea)
+
 ##Display barplots of the pixel area in each habitat type.####
 BpGBHabitatPixels<-barplot(GBcontiguoushab, 
                      col=col7class,
+                     axes=F,
                      main="Pixels per terrestrial habitat class on Grand Bahama 2017", 
                      xlab="Habitat type",
                      ylab="Number of Pixels",
@@ -163,7 +168,8 @@ BpGBHabitatPixels<-barplot(GBcontiguoushab,
                                  "Sand", 
                                  "Urban", 
                                  "Grass", 
-                                 "HWTC"))
+                                 "HWTC"),
+                     las=1)
 text(BpGBHabitatPixels, 
      habitatpixels$freq[1:7], 
      label=habitatpixels$freq[1:7], 
@@ -173,6 +179,7 @@ text(BpGBHabitatPixels,
 
 BpGBHabitatkm2<-barplot(habitatareakm2, 
                      col=col7class,
+                     axes=F,
                      main="Square Km per terrestrial habitat class on Grand Bahama 2017", 
                      xlab="Habitat type",
                      ylab="Area (sq.Km)",
