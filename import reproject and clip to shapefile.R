@@ -1,13 +1,15 @@
 #Ancilleno Davis
-#Geo 560 rcode
 
 #This r-code has been developed by Ancilleno Davis in partial completion of the 
 #requirements for PhD in Ecology Evolution and Environmental Science at Miami University in Oxford, Ohio.
 
 #The purpose of this Rcode is to import habitat classification data 
-#generated in Google Earth Engine from LAndsat 8 OLI reflectance data,
-#and trim that classification data to the contiguous terrestrial area of Grand Bahama Island
-#This will allow the use of more efficient summary and analysis of the remaining habitat data
+#generated in Google Earth Engine from Landsat 8 OLI reflectance data,
+#trim that classification data to the contiguous terrestrial area of Grand Bahama Island
+#display the resulting raster images
+#calculate the kappa coefficient for the confusion matrix and 
+#calculate percent cover and total area in each habitat 
+#This will allow more efficient summary and analysis of the remaining habitat data
 
 #### Initial workspace parameters####
 #set seed
@@ -197,4 +199,27 @@ text(BpGBHabitatkm2,
      label=habitatareakm2, 
      pos = 3, 
      xpd = NA)
+
+
+###Import confusion matrix generated in Google Earth Engine Code API and calculate Cohen's Kappa####
+#Import the confusion matrix that was calculated by Google Earth Engine 
+#your confusionmatrix should be in a csv with no header rows
+#using validation data
+confmatrix20177classes <-read_csv("7x7 class confusion matrix 2017.csv", 
+                                  col_names = TRUE)
+##View(confmatrix20177classes)
+confmatrix20177classes<-as.data.frame(confmatrix20177classes)
+rownames(confmatrix20177classes)<-
+  colnames(confmatrix20177classes)<-
+  c("Water",
+    "Pine",
+    "Wetland",
+    "Sand",
+    "Urban",
+    "Grass",
+    "HWTC")
+
+#calculate the cohen's kappa coefficient to determine the agreement between 
+#the classification and validation data
+Kappa.test(confmatrix20177classes,y=NULL, conf.level=0.95)
 
